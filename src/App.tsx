@@ -9,20 +9,17 @@ function App() {
 
   const googleSignInUrl = `${cognitoDomain}/oauth2/authorize?identity_provider=Google&redirect_uri=${encodeURIComponent(
     redirectUri
-  )}&response_type=TOKEN&client_id=${clientId}&scope=email+openid+profile`;
+  )}&response_type=CODE&access_type=offline&client_id=${clientId}&scope=email+openid+profile`;
 
   useEffect(() => {
     // Handle redirect from Cognito after login
     const hash = window.location.hash;
     if (hash) {
       const params = new URLSearchParams(hash.substring(1)); // Remove '#' and parse params
-      const idToken = params.get("id_token");
-      const accessToken = params.get("access_token");
+      const code = params.get("code");
 
-      if (idToken && accessToken) {
+      if (code) {
         // Save tokens to local storage or manage session
-        localStorage.setItem("idToken", idToken);
-        localStorage.setItem("accessToken", accessToken);
 
         console.log("User successfully logged in!");
         // Redirect to your app's dashboard or home page
